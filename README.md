@@ -116,3 +116,17 @@ so the upgrade can be done in steps.
 3. When there are no more deprecation messages update to `^3.0`, where the `Captcha` class is removed.
 
 The path to the bundled font changed from `captcha.ttf` to `src/captcha.ttf`.
+
+Coming from Clear\Captcha
+-------------------------
+
+The classes are the same, only renamed:
+
+| `Clear\Captcha`             | `SugiPHP\Captcha`   |
+|-----------------------------|---------------------|
+| `CryptRndChars`             | `Crypt`             |
+| `UsedKeysProviderInterface` | `UsedKeysInterface` |
+| `UsedKeysProviderPdo`       | `PdoUsedKeys`       |
+| `UsedKeysProviderCache`     | `CacheUsedKeys`     |
+
+The checksum is now signed, so the ones generated before the switch are not accepted.
