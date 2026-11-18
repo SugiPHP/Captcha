@@ -2,6 +2,11 @@
 
 namespace SugiPHP\Captcha;
 
+/**
+ * Session based CAPTCHA image generator.
+ *
+ * @deprecated since 2.0, will be removed in 3.0. Use {@see CryptRndChars} instead.
+ */
 class Captcha
 {
 	/**
@@ -14,6 +19,12 @@ class Captcha
 
 	public function __construct(array $config = array())
 	{
+		@trigger_error(
+			"SugiPHP\\Captcha\\Captcha is deprecated since sugiphp/captcha 2.0 and will be removed in 3.0."
+			. " Use SugiPHP\\Captcha\\CryptRndChars instead.",
+			E_USER_DEPRECATED
+		);
+
 		// Default configuration options
 		$this->config = array(
 			// width of the image in pixels
@@ -77,6 +88,11 @@ class Captcha
 		return $this;
 	}
 
+	/**
+	 * Returns the CAPTCHA image (JPEG) as a binary string.
+	 *
+	 * @return string
+	 */
 	public function get()
 	{
 		ob_start();
@@ -85,9 +101,12 @@ class Captcha
 		return ob_get_clean();
 	}
 
+	/**
+	 * Sends the CAPTCHA image (JPEG) to the browser.
+	 */
 	public function output()
 	{
-		header("Content-type: image/jpg");
+		header("Content-type: image/jpeg");
 		imagejpeg($this->image, null, $this->config["quality"]);
 	}
 
@@ -113,12 +132,12 @@ class Captcha
 		$font = $this->config["font"];
 		$len = mb_strlen($code, "UTF-8");
 
-		$size = $width / $len - mt_rand(1, 3);
+		$size = max(8, (int) ($width / $len) - mt_rand(1, 3));
 		$box = imagettfbbox($size, 0, $font, $code);
 		$textWidth = $box[2] - $box[0];
 		$textHeight = $box[1] - $box[7];
-		$x = ($width - $textWidth) / 2;
-		$y = ($height - $textHeight) / 2 + $size;
+		$x = (int) (($width - $textWidth) / 2);
+		$y = (int) (($height - $textHeight) / 2 + $size);
 
 		for ($i = 0; $i < $len; $i++) {
 			$char = mb_substr($code, $i, 1, "UTF-8");
@@ -145,7 +164,7 @@ class Captcha
 		$cnt = mb_strlen($charset, "UTF-8");
 
 		for ($i = 0; $i < $this->config["length"]; $i++) {
-			$code .= mb_substr($charset, mt_rand(0, $cnt - 1), 1, "UTF-8");
+			$code .= mb_substr($charset, random_int(0, $cnt - 1), 1, "UTF-8");
 		}
 
 		return $code;

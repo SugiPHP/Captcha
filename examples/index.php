@@ -1,29 +1,33 @@
 <?php
 
-use SugiPHP\Captcha\Captcha;
+use SugiPHP\Captcha\CryptRndChars;
+use SugiPHP\Captcha\UsedKeysProviderPdo;
 
 include __DIR__."/../vendor/autoload.php";
 
-session_start();
+// Used codes storage. Any PDO connection will do, as well as any PSR-6 cache pool (see UsedKeysProviderCache)
+$db = new PDO("sqlite:" . sys_get_temp_dir() . "/sugiphp-captcha-example.sqlite");
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db->exec(file_get_contents(__DIR__."/../schema.sql"));
+
+// Keep the secret out of the code (at least 32 chars long). It must be the same on all servers.
+$secret = "change-me-to-a-long-random-string-kept-in-private";
+
+$config = array();
+// $config = array("charset" => "абвгдежзийклмнопрстуфхцчшщъьюя1234567890");
+$captcha = new CryptRndChars(new UsedKeysProviderPdo($db), $secret, $config);
+
+// No sessions - the form carries the encrypted code (checksum) along with the user input
+$msg = "";
 if (isset($_POST["captcha"])) {
-	if (empty($_SESSION["captcha"])) {
-		$msg = "Enter code";
-	} elseif ($_SESSION["captcha"] !== $_POST["captcha"]) {
-		$msg = "Wrong code";
-	} else {
-		unset($_SESSION["captcha"]);
+	$checksum = isset($_POST["checksum"]) ? $_POST["checksum"] : "";
+	if ($captcha->verify($_POST["captcha"], $checksum)) {
 		die("<h1>Code accepted</h1><a href=''>Try again</a>");
 	}
-} else {
-	$msg = "";
+	$msg = $captcha->getLastErrorMessage();
 }
 
-
-$config = array("charset" => "абвгдежзийклмнопрстуфхцчшщъьюя1234567890");
-$config = array();
-$captcha = new Captcha($config);
-$captcha->build();
-$_SESSION["captcha"] = $captcha->getCode();
+$captcha->create();
 
 ?>
 <!DOCTYPE html>
@@ -32,10 +36,11 @@ $_SESSION["captcha"] = $captcha->getCode();
 	<meta charset="utf-8" />
 </head>
 <body>
-	<h1><?=$msg;?></h1>
-	<img src="<?=$captcha->base64();?>" />
+	<h1><?=htmlspecialchars($msg);?></h1>
+	<img src="data:image/jpeg;base64,<?=base64_encode($captcha->getImage());?>" />
 	<form method="post" action="">
-		<input type="text" name="captcha" value="" />
+		<input type="hidden" name="checksum" value="<?=htmlspecialchars($captcha->getChecksum());?>" />
+		<input type="text" name="captcha" value="" autocomplete="off" />
 		<input type="submit" value="Submit" />
 	</form>
 </body>
