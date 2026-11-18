@@ -9,7 +9,7 @@ use RuntimeException;
 use SugiPHP\Captcha\CaptchaInterface;
 use SugiPHP\Captcha\Session;
 
-final class SessionTest extends TestCase
+class SessionTest extends TestCase
 {
     /** @var array */
     private $session = [];

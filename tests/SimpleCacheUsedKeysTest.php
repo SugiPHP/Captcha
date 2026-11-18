@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface;
 use SugiPHP\Captcha\SimpleCacheUsedKeys;
 
-final class SimpleCacheUsedKeysTest extends TestCase
+class SimpleCacheUsedKeysTest extends TestCase
 {
     public function testUnusedKeyIsSavedWithExpiration(): void
     {

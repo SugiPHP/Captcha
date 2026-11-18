@@ -14,7 +14,7 @@ use RuntimeException;
  *
  * 'data:image/jpeg;base64,' . base64_encode($captcha->getImage());
  */
-final class Session implements CaptchaInterface
+class Session implements CaptchaInterface
 {
     use RndCharsTrait;
 

@@ -6,7 +6,7 @@ namespace SugiPHP\Captcha\Tests;
 
 use SugiPHP\Captcha\UsedKeysInterface;
 
-final class ArrayUsedKeys implements UsedKeysInterface
+class ArrayUsedKeys implements UsedKeysInterface
 {
     /** @var array<string, int> */
     public $keys = [];

@@ -10,7 +10,7 @@ use Psr\SimpleCache\CacheInterface;
  * Used captcha keys in a PSR-16 cache.
  * Use a cache of its own: clearing it makes all the used codes valid again.
  */
-final class SimpleCacheUsedKeys implements UsedKeysInterface
+class SimpleCacheUsedKeys implements UsedKeysInterface
 {
     /**
      * @var \Psr\SimpleCache\CacheInterface

@@ -12,7 +12,7 @@ use RuntimeException;
  *
  * 'data:image/jpeg;base64,' . base64_encode($captcha->getImage());
  */
-final class Crypt implements CaptchaInterface
+class Crypt implements CaptchaInterface
 {
     use RndCharsTrait;
 
