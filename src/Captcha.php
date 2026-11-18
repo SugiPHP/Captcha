@@ -5,7 +5,7 @@ namespace SugiPHP\Captcha;
 /**
  * Session based CAPTCHA image generator.
  *
- * @deprecated since 2.0, will be removed in 3.0. Use {@see SessionRndChars} or {@see CryptRndChars} instead.
+ * @deprecated since 2.0, will be removed in 3.0. Use {@see Session} or {@see Crypt} instead.
  */
 class Captcha
 {
@@ -21,7 +21,7 @@ class Captcha
 	{
 		@trigger_error(
 			"SugiPHP\\Captcha\\Captcha is deprecated since sugiphp/captcha 2.0 and will be removed in 3.0."
-			. " Use SugiPHP\\Captcha\\SessionRndChars or SugiPHP\\Captcha\\CryptRndChars instead.",
+			. " Use SugiPHP\\Captcha\\Session or SugiPHP\\Captcha\\Crypt instead.",
 			E_USER_DEPRECATED
 		);
 

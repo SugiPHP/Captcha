@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SugiPHP\Captcha\Tests;
 
-use SugiPHP\Captcha\UsedKeysProviderInterface;
+use SugiPHP\Captcha\UsedKeysInterface;
 
-final class ArrayUsedKeysProvider implements UsedKeysProviderInterface
+final class ArrayUsedKeys implements UsedKeysInterface
 {
     /** @var array<string, int> */
     public $keys = [];

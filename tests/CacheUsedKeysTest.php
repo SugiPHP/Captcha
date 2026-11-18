@@ -7,9 +7,9 @@ namespace SugiPHP\Captcha\Tests;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use SugiPHP\Captcha\UsedKeysProviderCache;
+use SugiPHP\Captcha\CacheUsedKeys;
 
-final class UsedKeysProviderCacheTest extends TestCase
+final class CacheUsedKeysTest extends TestCase
 {
     public function testUnusedKeyIsSavedWithExpiration(): void
     {
@@ -22,7 +22,7 @@ final class UsedKeysProviderCacheTest extends TestCase
         $pool->method('getItem')->with(sha1('key'))->willReturn($item);
         $pool->expects($this->once())->method('save')->with($item)->willReturn(true);
 
-        $this->assertTrue((new UsedKeysProviderCache($pool))->add('key', 60));
+        $this->assertTrue((new CacheUsedKeys($pool))->add('key', 60));
     }
 
     public function testUsedKeyIsRejected(): void
@@ -34,6 +34,6 @@ final class UsedKeysProviderCacheTest extends TestCase
         $pool->method('getItem')->willReturn($item);
         $pool->expects($this->never())->method('save');
 
-        $this->assertFalse((new UsedKeysProviderCache($pool))->add('key', 60));
+        $this->assertFalse((new CacheUsedKeys($pool))->add('key', 60));
     }
 }

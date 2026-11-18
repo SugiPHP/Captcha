@@ -12,7 +12,7 @@ use RuntimeException;
  *
  * 'data:image/jpeg;base64,' . base64_encode($captcha->getImage());
  */
-final class CryptRndChars implements CaptchaInterface
+final class Crypt implements CaptchaInterface
 {
     use RndCharsTrait;
 
@@ -31,7 +31,7 @@ final class CryptRndChars implements CaptchaInterface
     private $macKey;
 
     /**
-     * @var UsedKeysProviderInterface instance
+     * @var UsedKeysInterface instance
      */
     private $provider;
 
@@ -51,7 +51,7 @@ final class CryptRndChars implements CaptchaInterface
      */
     private string $lastErrorMessage = '';
 
-    public function __construct(UsedKeysProviderInterface $provider, string $secret, array $config = array())
+    public function __construct(UsedKeysInterface $provider, string $secret, array $config = array())
     {
         if (!function_exists('imagettftext')) {
             throw new RuntimeException('GD library with FreeType support is required.');

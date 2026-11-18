@@ -5,10 +5,10 @@ Captcha
 
 Image CAPTCHA in two flavours, sharing the same interface (`CaptchaInterface`):
 
-- `CryptRndChars` - does not need sessions
-- `SessionRndChars` - keeps the code in the session; no secret key or database needed
+- `Crypt` - does not need sessions
+- `Session` - keeps the code in the session; no secret key or database needed
 
-### CryptRndChars
+### Crypt
 
 The code from the image travels with the form in an encrypted and signed form (the *checksum*), together with
 the time it was generated at. On submit the user input is checked against the checksum. Each CAPTCHA is accepted
@@ -30,11 +30,11 @@ Usage
 ### Without sessions
 
 ```php
-use SugiPHP\Captcha\CryptRndChars;
-use SugiPHP\Captcha\UsedKeysProviderPdo;
+use SugiPHP\Captcha\Crypt;
+use SugiPHP\Captcha\PdoUsedKeys;
 
 // $pdo is a PDO connection to a database having the table from schema.sql
-$captcha = new CryptRndChars(new UsedKeysProviderPdo($pdo), $secret);
+$captcha = new Crypt(new PdoUsedKeys($pdo), $secret);
 
 // showing the form
 $captcha->create();
@@ -52,10 +52,10 @@ if (!$captcha->verify($_POST["captcha"], $_POST["checksum"])) {
 ### With sessions
 
 ```php
-use SugiPHP\Captcha\SessionRndChars;
+use SugiPHP\Captcha\Session;
 
 session_start();
-$captcha = new SessionRndChars();
+$captcha = new Session();
 
 // showing and processing the form is the same as above
 ```
@@ -65,17 +65,17 @@ can be opened at the same time. Each CAPTCHA can be checked only once, no matter
 A full working form is in [examples/session.php](examples/session.php).
 
 If the application does not use `$_SESSION` directly, pass the array to work with as a second parameter:
-`new SessionRndChars($config, $sessionData)`.
+`new Session($config, $sessionData)`.
 
-### Used codes storage (CryptRndChars)
+### Used codes storage (Crypt)
 
-- `UsedKeysProviderPdo` - any PDO connection. Create the table from [schema.sql](schema.sql).
-- `UsedKeysProviderCache` - any PSR-6 cache pool (`composer require psr/cache` and an implementation).
-- or your own `UsedKeysProviderInterface` implementation.
+- `PdoUsedKeys` - any PDO connection. Create the table from [schema.sql](schema.sql).
+- `CacheUsedKeys` - any PSR-6 cache pool (`composer require psr/cache` and an implementation).
+- or your own `UsedKeysInterface` implementation.
 
 ### Configuration
 
-The configuration is an array (third constructor parameter of `CryptRndChars`, first of `SessionRndChars`) with any of:
+The configuration is an array (third constructor parameter of `Crypt`, first of `Session`) with any of:
 
 | Option     | Default            | Description                                   |
 |------------|--------------------|-----------------------------------------------|
@@ -86,9 +86,9 @@ The configuration is an array (third constructor parameter of `CryptRndChars`, f
 | `font`     | bundled TTF font   | absolute path to a TTF font                   |
 | `quality`  | `15`               | JPEG quality                                  |
 | `lifetime` | `3600`             | seconds the code is valid for                 |
-| `cipher`   | `aes-256-cbc`      | `CryptRndChars` only: openssl cipher used to encrypt the code |
-| `session_key` | `sugiphp_captcha` | `SessionRndChars` only: where in the session the codes are kept |
-| `max_pending` | `10`           | `SessionRndChars` only: how many not checked codes are kept in the session |
+| `cipher`   | `aes-256-cbc`      | `Crypt` only: openssl cipher used to encrypt the code |
+| `session_key` | `sugiphp_captcha` | `Session` only: where in the session the codes are kept |
+| `max_pending` | `10`           | `Session` only: how many not checked codes are kept in the session |
 
 Upgrading from 1.x
 ------------------
@@ -98,12 +98,12 @@ so the upgrade can be done in steps.
 
 1. Update to `^2.0` (PHP 7.4+ is required). Existing code continues to work, but creating a `Captcha` instance
    triggers an `E_USER_DEPRECATED` error.
-2. Replace the usages of `Captcha` with `SessionRndChars` (the closest to what 1.x does - the code stays in the
-   session) or with `CryptRndChars`:
+2. Replace the usages of `Captcha` with `Session` (the closest to what 1.x does - the code stays in the
+   session) or with `Crypt`:
 
    | 1.x (`Captcha`)                            | 2.x / 3.x                                                |
    |--------------------------------------------|----------------------------------------------------------|
-   | `new Captcha($config)`                     | `new SessionRndChars($config)` or `new CryptRndChars($provider, $secret, $config)` |
+   | `new Captcha($config)`                     | `new Session($config)` or `new Crypt($provider, $secret, $config)` |
    | `build()`                                  | `create()`                                               |
    | `get()`                                    | `getImage()`                                             |
    | `base64()`                                 | `"data:image/jpeg;base64," . base64_encode(getImage())`  |

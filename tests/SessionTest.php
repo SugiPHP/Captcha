@@ -7,9 +7,9 @@ namespace SugiPHP\Captcha\Tests;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SugiPHP\Captcha\CaptchaInterface;
-use SugiPHP\Captcha\SessionRndChars;
+use SugiPHP\Captcha\Session;
 
-final class SessionRndCharsTest extends TestCase
+final class SessionTest extends TestCase
 {
     /** @var array */
     private $session = [];
@@ -19,9 +19,9 @@ final class SessionRndCharsTest extends TestCase
         $this->session = [];
     }
 
-    private function captcha(array $config = []): SessionRndChars
+    private function captcha(array $config = []): Session
     {
-        return new SessionRndChars($config, $this->session);
+        return new Session($config, $this->session);
     }
 
     /**
@@ -48,7 +48,7 @@ final class SessionRndCharsTest extends TestCase
         $this->assertNotSame(PHP_SESSION_ACTIVE, session_status());
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session is not started');
-        (new SessionRndChars())->create();
+        (new Session())->create();
     }
 
     public function testCodeUsesCharsetAndLength(): void

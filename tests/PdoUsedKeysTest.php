@@ -6,9 +6,9 @@ namespace SugiPHP\Captcha\Tests;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
-use SugiPHP\Captcha\UsedKeysProviderPdo;
+use SugiPHP\Captcha\PdoUsedKeys;
 
-final class UsedKeysProviderPdoTest extends TestCase
+final class PdoUsedKeysTest extends TestCase
 {
     /** @var PDO */
     private $db;
@@ -25,7 +25,7 @@ final class UsedKeysProviderPdoTest extends TestCase
 
     public function testKeyCanBeAddedOnlyOnce(): void
     {
-        $provider = new UsedKeysProviderPdo($this->db);
+        $provider = new PdoUsedKeys($this->db);
         $this->assertTrue($provider->add('key', 60));
         $this->assertFalse($provider->add('key', 60));
         $this->assertTrue($provider->add('other key', 60));
@@ -33,7 +33,7 @@ final class UsedKeysProviderPdoTest extends TestCase
 
     public function testReleasedKeyCanBeAddedAgain(): void
     {
-        $provider = new UsedKeysProviderPdo($this->db);
+        $provider = new PdoUsedKeys($this->db);
         $this->assertTrue($provider->add('key', -10));
         $this->assertTrue($provider->add('key', 60));
         $this->assertFalse($provider->add('key', 60));

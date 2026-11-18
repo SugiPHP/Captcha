@@ -34,7 +34,7 @@ final class CaptchaTest extends TestCase
     {
         new Captcha();
         $this->assertCount(1, $this->deprecations);
-        $this->assertStringContainsString('CryptRndChars', $this->deprecations[0]);
+        $this->assertStringContainsString('Crypt', $this->deprecations[0]);
     }
 
     public function testLegacyApiStillWorks(): void

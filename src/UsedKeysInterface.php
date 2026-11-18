@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace SugiPHP\Captcha;
 
 /**
- * Used captcha keys Provider Interface
+ * Used captcha keys storage interface
  * The key can be only the iv or full encoded string
  */
-interface UsedKeysProviderInterface
+interface UsedKeysInterface
 {
     /**
      * Mark a key as used for some time. If the key is already used (within the time window)

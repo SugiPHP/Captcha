@@ -8,7 +8,7 @@ use PDO;
 use PDOException;
 use DateTime;
 
-final class UsedKeysProviderPdo implements UsedKeysProviderInterface
+final class PdoUsedKeys implements UsedKeysInterface
 {
     private $db;
 

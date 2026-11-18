@@ -1,6 +1,6 @@
 <?php
 
-use SugiPHP\Captcha\SessionRndChars;
+use SugiPHP\Captcha\Session;
 
 include __DIR__."/../vendor/autoload.php";
 
@@ -9,7 +9,7 @@ session_start();
 
 $config = array();
 // $config = array("charset" => "абвгдежзийклмнопрстуфхцчшщъьюя1234567890");
-$captcha = new SessionRndChars($config);
+$captcha = new Session($config);
 
 $msg = "";
 if (isset($_POST["captcha"])) {

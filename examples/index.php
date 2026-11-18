@@ -1,11 +1,11 @@
 <?php
 
-use SugiPHP\Captcha\CryptRndChars;
-use SugiPHP\Captcha\UsedKeysProviderPdo;
+use SugiPHP\Captcha\Crypt;
+use SugiPHP\Captcha\PdoUsedKeys;
 
 include __DIR__."/../vendor/autoload.php";
 
-// Used codes storage. Any PDO connection will do, as well as any PSR-6 cache pool (see UsedKeysProviderCache)
+// Used codes storage. Any PDO connection will do, as well as any PSR-6 cache pool (see CacheUsedKeys)
 $db = new PDO("sqlite:" . sys_get_temp_dir() . "/sugiphp-captcha-example.sqlite");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $db->exec(file_get_contents(__DIR__."/../schema.sql"));
@@ -15,7 +15,7 @@ $secret = "change-me-to-a-long-random-string-kept-in-private";
 
 $config = array();
 // $config = array("charset" => "абвгдежзийклмнопрстуфхцчшщъьюя1234567890");
-$captcha = new CryptRndChars(new UsedKeysProviderPdo($db), $secret, $config);
+$captcha = new Crypt(new PdoUsedKeys($db), $secret, $config);
 
 // No sessions - the form carries the encrypted code (checksum) along with the user input
 $msg = "";

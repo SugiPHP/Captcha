@@ -9,21 +9,21 @@ use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use RuntimeException;
 use SugiPHP\Captcha\CaptchaInterface;
-use SugiPHP\Captcha\CryptRndChars;
+use SugiPHP\Captcha\Crypt;
 
-final class CryptRndCharsTest extends TestCase
+final class CryptTest extends TestCase
 {
     private const SECRET = 'a-very-long-secret-key-of-32-chars-or-more';
 
-    private function captcha(array $config = [], ?ArrayUsedKeysProvider $provider = null): CryptRndChars
+    private function captcha(array $config = [], ?ArrayUsedKeys $provider = null): Crypt
     {
-        return new CryptRndChars($provider ?: new ArrayUsedKeysProvider(), self::SECRET, $config);
+        return new Crypt($provider ?: new ArrayUsedKeys(), self::SECRET, $config);
     }
 
     /**
      * Reads the generated code - the thing a human does by looking at the image.
      */
-    private function solve(CryptRndChars $captcha): string
+    private function solve(Crypt $captcha): string
     {
         $prop = new ReflectionProperty($captcha, 'code');
         if (PHP_VERSION_ID < 80100) {
@@ -41,7 +41,7 @@ final class CryptRndCharsTest extends TestCase
     public function testShortSecretIsRejected(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new CryptRndChars(new ArrayUsedKeysProvider(), 'too short');
+        new Crypt(new ArrayUsedKeys(), 'too short');
     }
 
     public function testUnknownCipherIsRejected(): void
@@ -108,7 +108,7 @@ final class CryptRndCharsTest extends TestCase
         $checksum = $captcha->getChecksum();
         sleep(1);
 
-        $other = new CryptRndChars(new ArrayUsedKeysProvider(), str_repeat('z', 32));
+        $other = new Crypt(new ArrayUsedKeys(), str_repeat('z', 32));
         $this->assertFalse($other->verify($this->solve($captcha), $checksum));
         $this->assertSame('Checksum mismatch', $other->getLastErrorMessage());
     }
@@ -139,7 +139,7 @@ final class CryptRndCharsTest extends TestCase
      */
     public function testVerifyRejectsTamperedIv(): void
     {
-        $provider = new ArrayUsedKeysProvider();
+        $provider = new ArrayUsedKeys();
         $captcha = $this->captcha([], $provider);
         $captcha->create();
         $code = $this->solve($captcha);
