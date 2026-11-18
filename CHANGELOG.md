@@ -7,6 +7,7 @@ Changelog
 Bridge release - everything from 1.x is still here, but deprecated.
 
 - Added `CryptRndChars` (implementing the new `CaptchaInterface`) - a CAPTCHA that needs no sessions
+- Added `SessionRndChars` (same interface) - keeps the code in the session, the closest replacement of `Captcha`
 - Added `UsedKeysProviderInterface` with PDO (`UsedKeysProviderPdo`) and PSR-6 (`UsedKeysProviderCache`) implementations
 - Deprecated the `Captcha` class - it triggers `E_USER_DEPRECATED` and will be removed in 3.0
 - `Captcha` generates the code with `random_int()` instead of `mt_rand()`
