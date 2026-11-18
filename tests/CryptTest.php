@@ -11,7 +11,7 @@ use RuntimeException;
 use SugiPHP\Captcha\CaptchaInterface;
 use SugiPHP\Captcha\Crypt;
 
-final class CryptTest extends TestCase
+class CryptTest extends TestCase
 {
     private const SECRET = 'a-very-long-secret-key-of-32-chars-or-more';
 

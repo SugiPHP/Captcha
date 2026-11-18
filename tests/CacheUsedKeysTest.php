@@ -9,7 +9,7 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use SugiPHP\Captcha\CacheUsedKeys;
 
-final class CacheUsedKeysTest extends TestCase
+class CacheUsedKeysTest extends TestCase
 {
     public function testUnusedKeyIsSavedWithExpiration(): void
     {

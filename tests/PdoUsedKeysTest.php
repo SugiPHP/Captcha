@@ -8,7 +8,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use SugiPHP\Captcha\PdoUsedKeys;
 
-final class PdoUsedKeysTest extends TestCase
+class PdoUsedKeysTest extends TestCase
 {
     /** @var PDO */
     private $db;

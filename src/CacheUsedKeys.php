@@ -6,7 +6,7 @@ namespace SugiPHP\Captcha;
 
 use Psr\Cache\CacheItemPoolInterface;
 
-final class CacheUsedKeys implements UsedKeysInterface
+class CacheUsedKeys implements UsedKeysInterface
 {
     /**
      * The cache pool instance.

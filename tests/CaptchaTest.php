@@ -10,7 +10,7 @@ use SugiPHP\Captcha\Captcha;
 /**
  * The 1.x class - kept in 2.x for backward compatibility.
  */
-final class CaptchaTest extends TestCase
+class CaptchaTest extends TestCase
 {
     /** @var string[] */
     private $deprecations = [];
