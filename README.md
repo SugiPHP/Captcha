@@ -69,6 +69,7 @@ If the application does not use `$_SESSION` directly, pass the array to work wit
 
 - `PdoUsedKeys` - any PDO connection. Create the table from [schema.sql](schema.sql).
 - `CacheUsedKeys` - any PSR-6 cache pool (`composer require psr/cache` and an implementation).
+- `SimpleCacheUsedKeys` - any PSR-16 cache (`composer require psr/simple-cache` and an implementation).
 - or your own `UsedKeysInterface` implementation.
 
 ### Configuration

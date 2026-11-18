@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.1.0
+-----
+
+- Added `SimpleCacheUsedKeys` - keeps the used codes in a PSR-16 cache
+
 3.0.0
 -----
 
