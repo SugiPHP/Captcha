@@ -93,8 +93,8 @@ The configuration is an array (third constructor parameter of `Crypt`, first of 
 Upgrading from 1.x
 ------------------
 
-Version 2 is the bridge between 1.x and 3.x: it has both the old `SugiPHP\Captcha\Captcha` class and the new API,
-so the upgrade can be done in steps.
+The `SugiPHP\Captcha\Captcha` class from 1.x is removed in 3.0. Version 2 is the bridge between 1.x and 3.x: it has
+both the old class and the new API, so the upgrade can be done in steps.
 
 1. Update to `^2.0` (PHP 7.4+ is required). Existing code continues to work, but creating a `Captcha` instance
    triggers an `E_USER_DEPRECATED` error.

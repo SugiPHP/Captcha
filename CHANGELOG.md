@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.0.0
+-----
+
+- Removed the deprecated `Captcha` class. Use `Session` or `Crypt` - see "Upgrading from 1.x" in the README
+
 2.0.0
 -----
 
