@@ -1,8 +1,6 @@
 Captcha
 =======
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SugiPHP/Captcha/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SugiPHP/Captcha/?branch=master)
-
 Image CAPTCHA in two flavours, sharing the same interface (`CaptchaInterface`):
 
 - `Crypt` - does not need sessions
